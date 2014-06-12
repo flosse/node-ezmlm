@@ -1,5 +1,9 @@
 # [Ezmlm](http://cr.yp.to/ezmlm.html) wrapper for Node.js
 
+[![Build Status](https://secure.travis-ci.org/flosse/node-ezmlm.png?branch=master)](http://travis-ci.org/flosse/node-ezmlm)
+[![Dependency Status](https://gemnasium.com/flosse/node-ezmlm.png?branch=master)](https://gemnasium.com/flosse/node-ezmlm)
+[![NPM version](https://badge.fury.io/js/ezmlm.png)](http://badge.fury.io/js/ezmlm)
+
 ## Install
 
     npm i --save ezmlm
