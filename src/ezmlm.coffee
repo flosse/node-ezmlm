@@ -3,6 +3,7 @@ Copyright (C) 2014 Markus Kohlhase <mail@markus-kohlhase.de>
 ###
 
 path     = require "path"
+mkdirp   = require "mkdirp"
 { exec } = require "child_process"
 
 checkListName = (o) ->
@@ -22,7 +23,8 @@ _unSub = (cfg, cb, t) ->
   checkListName cfg
   unless (s=cfg.addresses) instanceof Array and s.length > 0
     throw new Error "Invalid list of addresses"
-  _exec "ezmlm-#{t} #{getDir cfg}#{getType cfg} #{cfg.addresses.join(' ')}"
+  addrs = (a.trim() for a in cfg.addresses)
+  _exec "ezmlm-#{t} #{getDir cfg}#{getType cfg} #{addrs.join(' ')}", cb
 
 make = (cfg, cb) ->
   checkListName cfg
@@ -42,12 +44,19 @@ make = (cfg, cb) ->
 
   args      = "#{config}#{owner}#{from}#{switches}"
 
-  _exec "ezmlm-make #{args}#{dir} #{qmail} #{name} #{domain}"
+  if typeof cb is "function"
+    mkdirp.sync path.resolve cfg.dir or "./ezmlm"
 
+  _exec "ezmlm-make #{args}#{dir} #{qmail} #{name} #{domain}", cb
 
 list = (cfg, cb) ->
   checkListName cfg
-  _exec "ezmlm-list #{getDir cfg}#{getType cfg}"
+  if typeof cb is "function"
+    _cb = (err, res) ->
+      return cb err if err
+      cb null, res.trim().split '\n'
+
+  _exec "ezmlm-list #{getDir cfg}#{getType cfg}", _cb
 
 sub   = (cfg, cb) -> _unSub cfg, cb, "sub"
 unsub = (cfg, cb) -> _unSub cfg, cb, "unsub"
