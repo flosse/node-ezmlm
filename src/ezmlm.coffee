@@ -54,7 +54,9 @@ list = (cfg, cb) ->
   if typeof cb is "function"
     _cb = (err, res) ->
       return cb err if err
-      cb null, res.trim().split '\n'
+      a = res.trim().split '\n'
+      a = [] if a.length is 1 and a[0] is ''
+      cb null, a
 
   _exec "ezmlm-list #{getDir cfg}#{getType cfg}", _cb
 
