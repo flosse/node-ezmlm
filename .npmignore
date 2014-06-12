@@ -1,0 +1,5 @@
+*.tmp
+*.coffee
+spec/
+src/
+node_modules
