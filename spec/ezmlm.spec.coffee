@@ -37,7 +37,7 @@ describe "The ezmlm module", ->
     it "create a new list depending on the configuration", ->
       cfg  = { name: "foo", domain: "bar" }
 
-      dirPath   = path.resolve "./ezmlm/foo"
+      dirPath   = path.resolve "./foo"
       qmailPath = path.resolve "./.qmail-foo"
 
       result = "ezmlm-make #{dirPath} #{qmailPath} foo bar"
@@ -60,10 +60,24 @@ describe "The ezmlm module", ->
       result = "ezmlm-make -5 owner@example -3 from@address -aBcDeFg #{dirPath} #{qmailPath} foo bar"
       ezmlm.make(cfg).should.equal result
 
+    it "respects the dir and qmail properties", ->
+
+      cfg =
+        name  : "foo"
+        domain: "bar"
+        dir   : './blub/blabla'
+        qmail : 'myQmailFilePrefix'
+
+      dirPath   = path.resolve "blub/blabla"
+      qmailPath = path.resolve "./myQmailFilePrefix"
+      result    = "ezmlm-make #{dirPath} #{qmailPath} foo bar"
+      ezmlm.make(cfg).should.equal result
+
   describe "list command", ->
+
     it "returns an array with the current subscribers", ->
       cfg  = { name: "list" }
-      dirPath   = path.resolve "./ezmlm/list"
+      dirPath   = path.resolve "./list"
       result = "ezmlm-list #{dirPath}"
       ezmlm.list(cfg).should.equal result
 
@@ -72,9 +86,10 @@ describe "The ezmlm module", ->
       ezmlm.list(cfg).should.equal result
 
   describe "sub command", ->
+
     it "subscribes an array of subscribers", ->
       cfg  = { name: "list" }
-      dirPath   = path.resolve "./ezmlm/list"
+      dirPath   = path.resolve "./list"
       (-> ezmlm.sub(cfg)).should.Throw()
 
       result = "ezmlm-sub #{dirPath} foo@bar"
@@ -87,9 +102,10 @@ describe "The ezmlm module", ->
       ezmlm.sub(cfg).should.equal result
 
   describe "unsub command", ->
+
     it "unsubscribes an array of addresses", ->
       cfg  = { name: "list" }
-      dirPath   = path.resolve "./ezmlm/list"
+      dirPath   = path.resolve "./list"
       (-> ezmlm.unsub(cfg)).should.Throw()
 
       result = "ezmlm-unsub #{dirPath} foo@bar"

@@ -10,9 +10,7 @@ checkListName = (o) ->
   if typeof(o?.name) isnt "string" or (o.name.length < 1)
     throw new Error "Invalid list name"
 
-getDir = (cfg) ->
-  dir =  cfg.dir or "./ezmlm"
-  path.resolve path.join dir, cfg.name
+getDir = (cfg) -> path.resolve cfg.dir or path.join "./", cfg.name
 
 getType = (cfg) -> if cfg.type then " #{cfg.type}" else ''
 
@@ -45,7 +43,7 @@ make = (cfg, cb) ->
   args      = "#{config}#{owner}#{from}#{switches}"
 
   if typeof cb is "function"
-    mkdirp.sync path.resolve cfg.dir or "./ezmlm"
+    mkdirp.sync path.resolve path.join dir, '..'
 
   _exec "ezmlm-make #{args}#{dir} #{qmail} #{name} #{domain}", cb
 

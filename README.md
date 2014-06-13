@@ -34,8 +34,8 @@ The basic parameters for most commands are:
 
 ```js
 var cfg = {
-  name:   "mylist",  // required
-  dir:    "./ezmlm", // default
+  name:   "mylist",   // required
+  dir:    "./mylist", // default
 };
 ```
 The `CALLBACK` function takes two parameters, the error object and the result:
@@ -51,7 +51,7 @@ var callback = function(err, result){
 If you omit the `CALLBACK`, you'll get the coresponding command string:
 
 ```js
-ezmlm.list({name: "foo", type: "mod"}); // returns 'ezmlm-list ./ezmlm/foo mod'
+ezmlm.list({name: "foo", type: "mod"}); // returns 'ezmlm-list ./foo mod'
 ```
 
 ### Examples
@@ -61,7 +61,7 @@ var listname = "mylist"
 ezmlm.make({
     name:     listname,               // required
     domain:   "example.org",          // required
-    dir:      "./ezmlm",              // default
+    dir:      "./"+ listname,         // default
     qmail:    "./.qmail-" + listname, // default
     config:   "/etc/ezmlm/de",        // optional
     owner:    "foo@bar.tld",          // optional
@@ -101,3 +101,13 @@ ezmlm.unsub({
   function(err){ /* ... */ }
 );
 ```
+
+## Tests
+
+```
+npm test
+```
+
+## License
+
+node-ezmlm is licensed under the MIT license.
