@@ -78,6 +78,19 @@ describe "The ezmlm module", ->
       result    = "ezmlm-make #{dirPath} #{qmailPath} foo bar"
       ezmlm.make(cfg).should.equal result
 
+    it "respects the modify option", ->
+
+      cfg =
+        name  : "foo"
+        domain: "bar"
+        modify: yes
+        switches: "A"
+
+      dirPath   = path.resolve "./foo"
+      qmailPath = path.resolve ".qmail-foo"
+      result    = "ezmlm-make -+ -A #{dirPath} #{qmailPath} foo bar"
+      ezmlm.make(cfg).should.equal result
+
   describe "list command", ->
 
     it "returns an array with the current subscribers", ->

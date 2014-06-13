@@ -29,7 +29,7 @@ make = (cfg, cb) ->
   if typeof(d=cfg.domain) isnt "string" or d.length < 1
     throw new Error "Invalid domain: #{d}"
 
-  { name, domain, qmail, config, owner, from, switches } = cfg
+  { name, domain, qmail, config, owner, from, switches, modify } = cfg
 
   qmail    ?= ".qmail-#{name}"
   qmail     = path.resolve qmail
@@ -39,13 +39,14 @@ make = (cfg, cb) ->
   config    = if config   then "-C #{path.resolve config} " else ''
   owner     = if owner    then "-5 #{owner} "               else ''
   from      = if from     then "-3 #{from} "                else ''
+  modify    = if modify   then "-+ "                        else ''
 
   args      = "#{config}#{owner}#{from}#{switches}"
 
   if typeof cb is "function"
     mkdirp.sync path.resolve path.join dir, '..'
 
-  _exec "ezmlm-make #{args}#{dir} #{qmail} #{name} #{domain}", cb
+  _exec "ezmlm-make #{modify}#{args}#{dir} #{qmail} #{name} #{domain}", cb
 
 list = (cfg, cb) ->
   checkListName cfg

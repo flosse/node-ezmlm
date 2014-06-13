@@ -67,6 +67,7 @@ ezmlm.make({
     owner:    "foo@bar.tld",          // optional
     from:     "baz@bar.tld",          // optional
     switches: "AbDfglMrstu"           // optional
+    modify:   false                   // default
   },
   function(err){ /* ... */ }
 );
