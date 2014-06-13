@@ -18,6 +18,11 @@ describe "The ezmlm module", ->
   it "provides a unsub method", ->
     ezmlm.unsub.should.be.a "function"
 
+  it "provides a _getDir helper method", ->
+    ezmlm._getDir.should.be.a "function"
+    ezmlm._getDir({name: "bla"}).should.equal path.resolve './bla'
+    ezmlm._getDir({name: "bla", dir:"blub"}).should.equal path.resolve './blub'
+
   it "checks for a correct cfg object", ->
     (-> ezmlm.make()                                  ).should.Throw()
     (-> ezmlm.make  {}                                ).should.Throw()

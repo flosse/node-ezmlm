@@ -102,6 +102,36 @@ ezmlm.unsub({
 );
 ```
 
+### List class
+
+```js
+var myList = new ezmlm.List("foo");
+
+myList.on("sub", function(ev){
+  console.log(ev.addresses); // array of all new addresses
+  console.log(ev.type);      // array name (e.g. subscribers)
+});
+
+myList.on("unsub", function(ev){
+  console.log(ev.addresses); // array of deleted addresses
+  console.log(ev.type);      // array name (e.g. moderators)
+});
+
+myList.on("error", function(err){
+  console.error(err);
+});
+
+myList.on("ready", function(){
+  myList.subscribers  // array of addresses
+  myList.moderators   // array of addresses
+  myList.aliases      // array of addresses
+  myList.watch();
+  myList.sub(["new@address.tld"]);
+  myList.sub(["foo@bar.tld"],'moderators');
+  myList.unsub(["old@address.tld"]);
+});
+```
+
 ## Tests
 
 ```
