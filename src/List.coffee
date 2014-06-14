@@ -56,11 +56,12 @@ module.exports = class List extends EventEmitter
       if delAddresses.length > 0
         @emit "unsub", { addresses: delAddresses, type }
 
-  watch: (cb) ->
+  watch: (cb=->) ->
+    n = subTypes.length
     for d in subTypes then do (d) =>
-      sane path.join(@dir, d, 'subscribers'), '**/*', persistent: yes
+      sane path.join(@dir, d, 'subscribers'), '*', persistent: yes
         .on "error", (e)  => @emit "error", e
-        .on "ready",      => cb?()
+        .on "ready",      => process.nextTick cb if --n is 0
         .on "change",     => @_onChange d
         .on "add",        => @_onChange d
         .on "delete",     => @_onChange d
