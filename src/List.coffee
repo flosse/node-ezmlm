@@ -2,7 +2,7 @@
 Copyright (C) 2014 Markus Kohlhase <mail@markus-kohlhase.de>
 ###
 
-chokidar          = require 'chokidar'
+sane              = require 'sane'
 path              = require "path"
 async             = require "async"
 ezmlm             = require "./core"
@@ -46,29 +46,24 @@ module.exports = class List extends EventEmitter
       if err then @emit "error", err else @emit "ready"
 
   _onChange: (d) ->
-    run = =>
-      ezmlm.list {@name, @dir, type:d}, (err, res) =>
-        type = _getArrayName d
-        newAddresses = (r for r in res     when not (r in @[type]))
-        delAddresses = (r for r in @[type] when not (r in res)   )
-        @[type] = res
-        if newAddresses.length > 0
-          @emit "sub",   { addresses: newAddresses, type }
-        if delAddresses.length > 0
-          @emit "unsub", { addresses: delAddresses, type }
-    # wait for disk writes
-    setTimeout run, 500
+    ezmlm.list {@name, @dir, type:d}, (err, res) =>
+      type = _getArrayName d
+      newAddresses = (r for r in res     when not (r in @[type]))
+      delAddresses = (r for r in @[type] when not (r in res)   )
+      @[type] = res
+      if newAddresses.length > 0
+        @emit "sub",   { addresses: newAddresses, type }
+      if delAddresses.length > 0
+        @emit "unsub", { addresses: delAddresses, type }
 
-  watch: ->
+  watch: (cb) ->
     for d in subTypes then do (d) =>
-      chokidar
-        .watch path.join(@dir, d, 'subscribers'),
-          persistent:    yes
-          ignoreInitial: yes
+      sane path.join(@dir, d, 'subscribers'), '**/*', persistent: yes
         .on "error", (e)  => @emit "error", e
-        .on "add",        => @_onChange d
+        .on "ready",      => cb?()
         .on "change",     => @_onChange d
-        .on "unlink",     => @_onChange d
+        .on "add",        => @_onChange d
+        .on "delete",     => @_onChange d
 
   _unSub: (addresses, type, fn) ->
     type = _getType type

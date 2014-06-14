@@ -126,10 +126,12 @@ myList.on("ready", function(){
   myList.subscribers  // array of addresses
   myList.moderators   // array of addresses
   myList.aliases      // array of addresses
-  myList.watch();
-  myList.sub(["new@address.tld"]);
-  myList.sub(["foo@bar.tld"],'moderators');
-  myList.unsub(["old@address.tld"]);
+  myList.watch(function(){
+    // ready to watch changes
+    myList.sub(["new@address.tld"]);
+    myList.sub(["foo@bar.tld"],'moderators');
+    myList.unsub(["old@address.tld"]);
+  });
 });
 ```
 
