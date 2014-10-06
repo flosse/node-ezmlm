@@ -22,7 +22,7 @@ _unSub = (cfg, cb, t) ->
   unless (s=cfg.addresses) instanceof Array
     throw new Error "Invalid list of addresses"
   return cb?() if s.length is 0
-  addrs = (a.trim() for a in s)
+  addrs = (a.trim() for a in s.filter (e) -> typeof e is "string")
   _exec "ezmlm-#{t} #{_getDir cfg}#{_getType cfg} #{addrs.join(' ')}", cb
 
 make = (cfg, cb) ->
