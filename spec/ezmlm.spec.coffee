@@ -31,7 +31,7 @@ describe "The ezmlm module", ->
     (-> ezmlm.make  {name: "fo", domain: "bar"}       ).should.not.Throw()
     (-> ezmlm.list  {name: "fo" }                     ).should.not.Throw()
     (-> ezmlm.sub   {name: "fo" }                     ).should.Throw()
-    (-> ezmlm.sub   {name: "fo", addresses: [] }      ).should.Throw()
+    (-> ezmlm.sub   {name: "fo", addresses: [] }      ).should.not.Throw()
     (-> ezmlm.sub   {name: "fo", addresses: ["foo"]}  ).should.not.Throw()
     (-> ezmlm.sub   {}                                ).should.Throw()
     (-> ezmlm.unsub {name: "fo" }                     ).should.Throw()

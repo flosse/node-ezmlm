@@ -19,9 +19,11 @@ _exec = (cmd, cb) ->
 
 _unSub = (cfg, cb, t) ->
   checkListName cfg
-  unless (s=cfg.addresses) instanceof Array and s.length > 0
+  unless (s=cfg.addresses) instanceof Array
     throw new Error "Invalid list of addresses"
-  addrs = (a.trim() for a in cfg.addresses)
+  if s.length is 0
+    return
+  addrs = (a.trim() for a in s)
   _exec "ezmlm-#{t} #{_getDir cfg}#{_getType cfg} #{addrs.join(' ')}", cb
 
 make = (cfg, cb) ->
