@@ -66,15 +66,22 @@ module.exports = class List extends EventEmitter
         .on "add",        => @_onChange d
         .on "delete",     => @_onChange d
 
-  _unSub: (addresses, type, fn) ->
+  _unSub: (addresses, type, fn, callback=->) ->
     type = _getType type
     ezmlm[fn] {@name, @dir, type, addresses}, (err) =>
-      @emit "error", err if err
+      if err
+        callback err
+        @emit "error", err
+      else callback()
 
-  sub: (addresses, type) ->
-    @_unSub addresses, type, "sub"
+  sub: (addresses, type, cb) ->
+    if typeof type is "function"
+      cb = type; type = null
+    @_unSub addresses, type, "sub", cb
 
-  unsub: (addresses, type) ->
-    @_unSub addresses, type, "unsub"
+  unsub: (addresses, type, cb) ->
+    if typeof type is "function"
+      cb = type; type = null
+    @_unSub addresses, type, "unsub", cb
 
   @_getArrayName: _getArrayName

@@ -128,8 +128,8 @@ myList.on("ready", function(){
   myList.aliases      // array of addresses
   myList.watch(function(){
     // ready to watch changes
-    myList.sub(["new@address.tld"]);
-    myList.sub(["foo@bar.tld"],'moderators');
+    myList.sub(["new@address.tld"], function(err){ /* ... */ });
+    myList.sub(["foo@bar.tld"],'moderators', function(err){ /* ... */ });
     myList.unsub(["old@address.tld"]);
   });
 });
