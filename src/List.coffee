@@ -2,6 +2,7 @@
 Copyright (C) 2014 Markus Kohlhase <mail@markus-kohlhase.de>
 ###
 
+fs                = require "fs"
 sane              = require 'sane'
 path              = require "path"
 async             = require "async"
@@ -41,6 +42,10 @@ module.exports = class List extends EventEmitter
     tasks = for t in subTypes then do (t) =>
       (next) => ezmlm.list {@name, @dir, type: t}, (err, res) =>
         @[_getArrayName t] = res unless err
+        next err
+    tasks.push (next) =>
+      fs.readFile path.join(@dir, "owner"), "utf-8", (err, content) =>
+        @owner = content.trim() unless err
         next err
     async.parallel tasks, (err) =>
       if err then @emit "error", err else @emit "ready"
