@@ -126,6 +126,7 @@ myList.on("ready", function(){
   myList.subscribers  // array of addresses
   myList.moderators   // array of addresses
   myList.aliases      // array of addresses
+  myList.owner        // eMail address of the list owner
   myList.watch(function(){
     // ready to watch changes
     myList.sub(["new@address.tld"], function(err){ /* ... */ });
