@@ -1,5 +1,5 @@
 ###
-Copyright (C) 2014 Markus Kohlhase <mail@markus-kohlhase.de>
+Copyright (C) 2014 - 2015 Markus Kohlhase <mail@markus-kohlhase.de>
 ###
 
 fs                = require "fs"
@@ -66,7 +66,7 @@ module.exports = class List extends EventEmitter
     for d in subTypes then do (d) =>
       sane path.join(@dir, d, 'subscribers'), '*', persistent: yes
         .on "error", (e)  => @emit "error", e
-        .on "ready",      => process.nextTick cb if --n is 0
+        .on "ready",      -> process.nextTick cb if --n is 0
         .on "change",     => @_onChange d
         .on "add",        => @_onChange d
         .on "delete",     => @_onChange d

@@ -4,7 +4,8 @@
   "description": "Ezmlm wrapper for Node.js",
   "main": "lib/ezmlm.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec --compilers coffee:coffee-script/register spec/*.spec.coffee",
+    "lint": "./node_modules/.bin/coffeelint src/",
+    "test": "npm run lint && ./node_modules/.bin/mocha --reporter spec --compilers coffee:coffee-script/register spec/*.spec.coffee",
     "prepublish": "./node_modules/.bin/coffee -o lib/ -c src/*.coffee"
   },
   "repository": {
@@ -26,6 +27,7 @@
   "devDependencies": {
     "chai": "^2.2.0",
     "coffee-script": "^1.9.1",
+    "coffeelint": "^1.9.3",
     "mocha": "^2.2.4"
   },
   "dependencies": {
