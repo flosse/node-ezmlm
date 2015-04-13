@@ -11,7 +11,7 @@
 ## Usage
 
 ```js
-ezmlm = require("ezmlm");
+var ezmlm = require("ezmlm");
 ```
 
 The API looks as follows:
