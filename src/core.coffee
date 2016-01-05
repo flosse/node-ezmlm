@@ -1,5 +1,5 @@
 ###
-Copyright (C) 2014 - 2015 Markus Kohlhase <mail@markus-kohlhase.de>
+Copyright (C) 2014 - 2016 Markus Kohlhase <mail@markus-kohlhase.de>
 ###
 
 path     = require "path"
